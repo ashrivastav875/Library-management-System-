@@ -20,7 +20,7 @@ class PostgresSearchFilter(SearchFilter):
     """
     
     search_param = 'search'
-    trigram_threshold = 0.1
+    trigram_threshold = 0.3  # Increased threshold for better precision
     
     def filter_queryset(self, request, queryset, view):
         search_term = request.query_params.get(self.search_param, '').strip()
@@ -40,11 +40,12 @@ class PostgresSearchFilter(SearchFilter):
     def _postgres_search(self, queryset, search_term, view):
         """
         PostgreSQL-specific search using Trigram + Full-Text Search.
+        Optimized for typo tolerance with better precision.
         """
         from django.contrib.postgres.search import (
             SearchQuery, SearchRank, TrigramSimilarity
         )
-        from django.db.models.functions import Greatest
+        from django.db.models.functions import Greatest, Coalesce
         
         search_query = SearchQuery(search_term, config='english')
         
@@ -52,9 +53,16 @@ class PostgresSearchFilter(SearchFilter):
         queryset = queryset.annotate(
             title_sim=TrigramSimilarity('title', search_term),
             author_sim=TrigramSimilarity('author', search_term),
+            genre_sim=TrigramSimilarity('genre', search_term),
+            isbn_sim=TrigramSimilarity('isbn', search_term),
+            desc_sim=TrigramSimilarity(Coalesce('description', Value('')), search_term),
+            # Combined weighted similarity - genre gets higher weight for category searches
             combined_similarity=Greatest(
                 F('title_sim') * 1.5,
                 F('author_sim') * 1.3,
+                F('genre_sim') * 1.5,  # Genre matches are important for category searches
+                F('isbn_sim') * 1.2,
+                F('desc_sim') * 0.8,
             ),
             rank=SearchRank(F('search_vector'), search_query)
         ).filter(
@@ -62,8 +70,9 @@ class PostgresSearchFilter(SearchFilter):
             Q(search_vector=search_query) |
             Q(title__icontains=search_term) |
             Q(author__icontains=search_term) |
-            Q(isbn__icontains=search_term)
-        ).order_by('-rank', '-combined_similarity')
+            Q(isbn__icontains=search_term) |
+            Q(genre__icontains=search_term)
+        ).order_by('-combined_similarity', '-rank')
         
         return queryset
     
