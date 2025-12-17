@@ -1,0 +1,10 @@
+"""
+Borrowings app configuration.
+"""
+from django.apps import AppConfig
+
+
+class BorrowingsConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'apps.borrowings'
+    verbose_name = 'Borrowings'
