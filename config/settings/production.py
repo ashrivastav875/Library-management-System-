@@ -31,8 +31,9 @@ SECURE_HSTS_PRELOAD = True
 
 # CORS - Configure based on environment variable
 cors_origins = os.getenv('CORS_ALLOWED_ORIGINS', '')
-if cors_origins == '*':
+if cors_origins == '*' or not cors_origins:
     CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOWED_ORIGINS = []  # Clear any from base settings
 else:
     CORS_ALLOW_ALL_ORIGINS = False
     CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_origins.split(',') if origin.strip()]
