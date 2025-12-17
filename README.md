@@ -4,7 +4,14 @@ A comprehensive RESTful API for library management where users can search for bo
 
 ## 🌐 Live Demo
 
-🔗 **API Documentation**: [https://web-production-12f57.up.railway.app/swagger/](https://web-production-12f57.up.railway.app/swagger/)
+| Link | URL |
+|------|-----|
+| � **Swagger UI** | [https://web-production-12f57.up.railway.app/swagger/](https://web-production-12f57.up.railway.app/swagger/) |
+| 📚 **ReDoc** | [https://web-production-12f57.up.railway.app/redoc/](https://web-production-12f57.up.railway.app/redoc/) |
+| ⚙️ **Admin Panel** | [https://web-production-12f57.up.railway.app/admin/](https://web-production-12f57.up.railway.app/admin/) |
+| 📡 **API Base** | [https://web-production-12f57.up.railway.app/api/](https://web-production-12f57.up.railway.app/api/) |
+
+**Admin Credentials**: `admin678@gmail.com` / `Admin678@`
 
 | Requirement | Status | Implementation |
 |-------------|--------|----------------|
