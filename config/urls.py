@@ -1,5 +1,5 @@
 """
-URL configuration for Book Catalog System.
+URL configuration for Library Management System.
 
 Provides API endpoints for book management, borrowings, and ratings.
 """
@@ -13,10 +13,10 @@ from drf_yasg import openapi
 # Swagger/OpenAPI schema view
 schema_view = get_schema_view(
     openapi.Info(
-        title="Book Catalog API",
+        title="Library Management System API",
         default_version='v1',
         description="""
-RESTful API for managing a book catalog system.
+RESTful API for library management system.
 
 ## Features
 - **Books**: Browse, search, and manage book inventory

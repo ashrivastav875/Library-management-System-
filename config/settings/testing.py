@@ -1,5 +1,5 @@
 """
-Testing settings for Book Catalog API.
+Testing settings for Library Management System.
 Uses SQLite for fast test execution.
 """
 from .base import *

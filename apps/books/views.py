@@ -16,7 +16,7 @@ from apps.accounts.permissions import IsAdministratorOrReadOnly
 
 class BookViewSet(viewsets.ModelViewSet):
     """
-    Book Catalog API - Search, filter, and browse books
+    Library Books API - Search, filter, and browse books
     
     Features:
     - Full-text search with typo tolerance (PostgreSQL trigram)

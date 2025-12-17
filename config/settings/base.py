@@ -1,5 +1,5 @@
 """
-Base Django settings for Book Catalog API.
+Base Django settings for Library Management System.
 Common settings shared across all environments.
 """
 import os

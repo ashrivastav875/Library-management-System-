@@ -1,6 +1,6 @@
 # 🚀 Deployment Guide
 
-Complete guide for deploying the Book Catalog API to Railway.
+Complete guide for deploying the Library Management System to Railway.
 
 ## Prerequisites
 

@@ -1,5 +1,5 @@
 """
-Development settings for Book Catalog API.
+Development settings for Library Management System.
 """
 from .base import *
 

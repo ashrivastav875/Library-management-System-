@@ -6,7 +6,7 @@ set -e
 
 export PORT=${PORT:-8000}
 
-echo "🚀 Starting Book Catalog API..."
+echo "🚀 Starting Library Management System..."
 
 # Run database migrations
 echo "📦 Running migrations..."

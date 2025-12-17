@@ -1,6 +1,6 @@
 # 🛡️ Security Documentation
 
-This document outlines the security measures implemented in the Book Catalog API.
+This document outlines the security measures implemented in the Library Management System.
 
 ## Overview
 

@@ -1,5 +1,5 @@
 """
-Production settings for Book Catalog API.
+Production settings for Library Management System.
 Configured for Render deployment.
 """
 import os
