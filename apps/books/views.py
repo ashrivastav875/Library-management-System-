@@ -18,8 +18,10 @@ class BookViewSet(viewsets.ModelViewSet):
     """
     Book Catalog API - Search, filter, and browse books
     
-    Public: Browse books
-    Admin: Full CRUD access
+    Features:
+    - Full-text search with typo tolerance (PostgreSQL trigram)
+    - Filter by title, author, genre, availability
+    - Sorting and pagination
     """
     
     queryset = Book.objects.all()
@@ -40,26 +42,26 @@ class BookViewSet(viewsets.ModelViewSet):
     
     @swagger_auto_schema(
         operation_summary="List all books",
-        operation_description="Search, filter, sort, and paginate books",
+        operation_description="Search, filter, sort, and paginate books. Uses PostgreSQL full-text search with typo tolerance.",
         manual_parameters=[
             openapi.Parameter(
                 'search',
                 openapi.IN_QUERY,
-                description="Search books by title, author, ISBN, genre, or description",
+                description="Search books (fuzzy matching with typo tolerance)",
                 type=openapi.TYPE_STRING,
                 required=False,
             ),
             openapi.Parameter(
                 'title',
                 openapi.IN_QUERY,
-                description="Filter by title (partial match)",
+                description="Filter by title",
                 type=openapi.TYPE_STRING,
                 required=False,
             ),
             openapi.Parameter(
                 'author',
                 openapi.IN_QUERY,
-                description="Filter by author (partial match)",
+                description="Filter by author",
                 type=openapi.TYPE_STRING,
                 required=False,
             ),
@@ -82,13 +84,6 @@ class BookViewSet(viewsets.ModelViewSet):
                 openapi.IN_QUERY,
                 description="Filter by availability",
                 type=openapi.TYPE_BOOLEAN,
-                required=False,
-            ),
-            openapi.Parameter(
-                'published_year',
-                openapi.IN_QUERY,
-                description="Filter by publication year",
-                type=openapi.TYPE_INTEGER,
                 required=False,
             ),
             openapi.Parameter(
@@ -120,3 +115,19 @@ class BookViewSet(viewsets.ModelViewSet):
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        """Create book and update search vector."""
+        book = serializer.save()
+        try:
+            book.update_search_vector()
+        except Exception:
+            pass
+    
+    def perform_update(self, serializer):
+        """Update book and refresh search vector."""
+        book = serializer.save()
+        try:
+            book.update_search_vector()
+        except Exception:
+            pass
