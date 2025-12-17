@@ -1,7 +1,7 @@
 """
 Borrowings app views.
 
-Handles book checkout, checkin, and borrowing history endpoints.
+Handles book borrowing, returning, and borrowing history endpoints.
 """
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
@@ -80,8 +80,8 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         return super().retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
-        operation_summary="Checkout a book",
-        operation_description="Checkout a book by its ID. Users can only have 1 active borrowing at a time.",
+        operation_summary="Borrow a book",
+        operation_description="Borrow a book by its ID. Users can only have 1 active borrowing at a time.",
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
             required=['book_id'],
@@ -147,7 +147,7 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         return Response(BorrowingSerializer(borrowing).data, status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(
-        operation_summary="Checkin a book",
+        operation_summary="Return a book",
         operation_description="Process a book return by borrowing ID. Requires administrator access.",
         request_body=no_body,
         responses={
